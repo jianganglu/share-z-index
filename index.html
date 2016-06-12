@@ -1,0 +1,1842 @@
+<!doctype html>
+
+<!--
+
+    Welcome to the light side of the source, young padawan.
+
+    One step closer to learn something interesting you are...
+
+                               ____                  
+                            _.' :  `._               
+                        .-.'`.  ;   .'`.-.           
+               __      / : ___\ ;  /___ ; \      __  
+             ,'_ ""=-.:__;".-.";: :".-.":__;.-="" _`,
+             :' `.t""=-.. '<@.`;_  ',@:` ..-=""j.' `;
+                  `:-.._J '-.-'L__ `-.-' L_..-;'     
+                    "-.__ ;  .-"  "-.  : __.-"       
+                        L ' /.======.\ ' J           
+                         "-.   "__"   .-"            
+                        __.l"-:_JL_;-";.__           
+                     .-j/'.;  ;""""  / .'\"-.        
+                   .' /:`. "-.:     .-" .';  `.      
+                .-"  / ;  "-. "-..-" .-"  :    "-.   
+             .+"-.  : :      "-.__.-"      ;-._   \  
+             ; \  `.; ;                    : : "+. ; 
+             :  ;   ; ;                    : ;  : \: 
+             ;  :   ; :                    ;:   ;  : 
+            : \  ;  :  ;                  : ;  /  :: 
+            ;  ; :   ; :                  ;   :   ;: 
+            :  :  ;  :  ;                : :  ;  : ; 
+            ;\    :   ; :                ; ;     ; ; 
+            : `."-;   :  ;              :  ;    /  ; 
+             ;    -:   ; :              ;  : .-"   : 
+             :\     \  :  ;            : \.-"      : 
+              ;`.    \  ; :            ;.'_..-=  / ; 
+              :  "-.  "-:  ;          :/."      .'  :
+               \         \ :          ;/  __        :
+                \       .-`.\        /t-""  ":-+.   :
+                 `.  .-"    `l    __/ /`. :  ; ; \  ;
+                   \   .-" .-"-.-"  .' .'j \  /   ;/ 
+                    \ / .-"   /.     .'.' ;_:'    ;  
+                     :-""-.`./-.'     /    `.___.'   
+                           \ `t  ._  /               
+                            "-.t-._:'                
+
+-->
+
+<!--
+    
+    So you'd like to know how to use impress.js?
+    
+    You've made the first, very important step - you're reading the source code.
+    And that's how impress.js presentations are built - with HTML and CSS code.
+    
+    Believe me, you need quite decent HTML and CSS skills to be able to use impress.js effectively.
+    More importantly, you need to be a designer. There are no default styles or layouts for impress.js presentations.
+    
+    You need to design and build it by hand.
+    
+    So...
+    
+    Would you still like to know how to use impress.js?
+    
+-->
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>impress.js | presentation tool based on the power of CSS3 transforms and transitions in modern browsers | by Bartek Szopka @bartaz</title>
+    
+    <meta name="description" content="impress.js is a presentation tool based on the power of CSS3 transforms and transitions in modern browsers and inspired by the idea behind prezi.com." />
+    <meta name="author" content="Bartek Szopka" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+    <!--
+        
+        Impress.js doesn't depend on any external stylesheets. It adds all of the styles it needs for the
+        presentation to work.
+        
+        This style below contains styles only for demo presentation. Browse it to see how impress.js
+        classes are used to style presentation steps, or how to apply fallback styles, but I don't want
+        you to use them directly in your presentation.
+        
+        Be creative, build your own. We don't really want all impress.js presentations to look the same,
+        do we?
+        
+        When creating your own presentation get rid of this file. Start from scratch, it's fun!
+        
+    -->
+    <link href="css/impress-demo.css" rel="stylesheet" />
+    
+    <link rel="shortcut icon" href="favicon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <style>
+        .impress-enabled .step {
+            opacity: 0;
+        }
+        .center {
+            text-align: center;
+            margin-top: 280px!important;
+        }
+        xmp {
+             font: inherit!important;
+             font-size: 30px!important;
+        }
+        #imagination,
+        #ing,
+        #tiny,
+        #big {
+            width: 800px;
+        }
+    </style>
+</head>
+
+<!--
+    
+    Body element is used by impress.js to set some useful class names, that will allow you to detect
+    the support and state of the presentation in CSS or other scripts.
+    
+    First very useful class name is `impress-not-supported`. This class means, that browser doesn't
+    support features required by impress.js, so you should apply some fallback styles in your CSS.
+    It's not necessary to add it manually on this element. If the script detects that browser is not
+    good enough it will add this class, but keeping it in HTML means that users without JavaScript
+    will also get fallback styles.
+    
+    When impress.js script detects that browser supports all required features, this class name will
+    be removed.
+    
+    The class name on body element also depends on currently active presentation step. More details about
+    it can be found later, when `hint` element is being described.
+    
+-->
+<body class="impress-not-supported">
+
+<!--
+    For example this fallback message is only visible when there is `impress-not-supported` class on body.
+-->
+<div class="fallback-message">
+    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+<!--
+    
+    Now that's the core element used by impress.js.
+    
+    That's the wrapper for your presentation steps. In this element all the impress.js magic happens.
+    It doesn't have to be a `<div>`. Only `id` is important here as that's how the script find it.
+    
+    You probably won't need it now, but there are some configuration options that can be set on this element.
+    
+    To change the duration of the transition between slides use `data-transition-duration="2000"` giving it
+    a number of ms. It defaults to 1000 (1s).
+    
+    You can also control the perspective with `data-perspective="500"` giving it a number of pixels.
+    It defaults to 1000. You can set it to 0 if you don't want any 3D effects.
+    If you are willing to change this value make sure you understand how CSS perspective works:
+    https://developer.mozilla.org/en/CSS/perspective
+    
+    But as I said, you won't need it for now, so don't worry - there are some simple but interesting things
+    right around the corner of this tag ;)
+    
+-->
+<div id="impress">
+
+    <!--
+        
+        Here is where interesting thing start to happen.
+        
+        Each step of the presentation should be an element inside the `#impress` with a class name
+        of `step`. These step elements are positioned, rotated and scaled by impress.js, and
+        the 'camera' shows them on each step of the presentation.
+        
+        Positioning information is passed through data attributes.
+        
+        In the example below we only specify x and y position of the step element with `data-x="-1000"`
+        and `data-y="-1500"` attributes. This means that **the center** of the element (yes, the center)
+        will be positioned in point x = -1000px and y = -1500px of the presentation 'canvas'.
+        
+        It will not be rotated or scaled.
+        
+    -->
+    <div id="bored" class="step slide" data-x="-1000" data-y="-1500">
+        <q>CSS深入理解之z-index</q>
+    </div>
+
+    <!--
+        
+        The `id` attribute of the step element is used to identify it in the URL, but it's optional.
+        If it is not defined, it will get a default value of `step-N` where N is a number of slide.
+        
+        So in the example below it'll be `step-2`.
+        
+        The hash part of the url when this step is active will be `#/step-2`.
+        
+        You can also use `#step-2` in a link, to point directly to this particular step.
+        
+        Please note, that while `#/step-2` (with slash) would also work in a link it's not recommended.
+        Using classic `id`-based links like `#step-2` makes these links usable also in fallback mode.
+        
+    -->
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q>part1: CSS z-index基础</q>
+        <p>——了解z-index的语法，支持的属性值等</p>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q class="center">1.含义</q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q>z-index属性指定了元素及其子元素的[z顺序]，而[z顺序]可以决定当元素发生覆盖的时候，哪个元素在上面。通常一个较大z-index值的元素会覆盖较低的那一个。</q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q class="center">2.属性值</q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q>
+            <ul style="margin-left: 150px;margin-top: 150px;list-style: inherit;">
+                <li>z-index: auto; <span style="color: #ccc;">默认值</span></li>
+                <li>z-index: integer; <span style="color: #ccc;">整数值</span></li>
+                <li>z-index: inherit; <span style="color: #ccc;">继承</span></li>
+            </ul>
+        </q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q class="center">3.基本特性</q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q>
+            <ol>
+                <li>1.支持负值；</li>
+                <li>2.支持CSS3 animation动画；</li>
+                <li>3.在CSS2.1时代，需要和定位元素配合使用；</li>
+            </ol>
+        </q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q class="center">
+            z-index: -1;
+        </q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q>
+            <pre>
+            @keyframes zIndex {
+                0% { z-index: -1; }
+                100% { z-index: 51; }
+            }
+            </pre>
+        </q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q>
+            如果不考虑CSS3，只有定位元素（position:relative/absolute/fixed/sticky）的z-index才有作用！在CSS3中有例外……
+        </q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q class="center">
+            以上~
+        </q>
+    </div>
+
+    <div class="step slide" data-x="-1000" data-y="-1500">
+        <q class="center">
+            然，z-index的征程才刚刚开始
+        </q>
+    </div>
+
+    <!--
+        
+        This is an example of step element being scaled.
+        
+        Again, we use a `data-` attribute, this time it's `data-scale="4"`, so it means that this
+        element will be 4 times larger than the others.
+        From presentation and transitions point of view it means, that it will have to be scaled
+        down (4 times) to make it back to its correct size.
+        
+    -->
+    <div id="title" class="step" data-x="0" data-y="0" data-scale="4">
+        <!-- <span class="try">then you should try</span> -->
+        <q>part2: z-index与css定位属性</q>
+        <p style="color: #999;">——理解嵌套表现以及z-index计算规则</p>
+        <!-- <span class="footnote"><sup>*</sup> no rhyme intended</span> -->
+    </div>
+
+    <!--
+        
+        This element introduces rotation.
+        
+        Notation shouldn't be a surprise. We use `data-rotate="90"` attribute, meaning that this
+        element should be rotated by 90 degrees clockwise.
+        
+    -->
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+        <!-- <p>It’s a <strong>presentation tool</strong> <br/>
+        inspired by the idea behind <a href="http://prezi.com">prezi.com</a> <br/>
+        and based on the <strong>power of CSS3 transforms and transitions</strong> in modern browsers.</p> -->
+        z-index只对定位元素有作用。
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="big" class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6"> -->
+        <!-- <p>visualize your <b>big</b> <span class="thoughts">thoughts</span></p> -->
+        <p style="background-color: #fff; margin-top: 20px;">{ position: static; <span style="text-decoration: line-through;">z-index: 2;</span> }</p>
+        <p style="background-color: #fff; margin-top: 20px;">{ position: relative; z-index: 2; }</p>
+        <p style="background-color: #fff; margin-top: 20px;">{ position: absolute; z-index: 2; }</p>
+        <p style="background-color: #fff; margin-top: 20px;">{ position: fixed; z-index: 2; }</p>
+        <p style="background-color: #fff; margin-top: 20px;">{ position: sticky; z-index: 2; }</p>
+    </div>
+
+    <!--
+        
+        And now it gets really exciting! We move into third dimension!
+        
+        Along with `data-x` and `data-y`, you can define the position on third (Z) axis, with
+        `data-z`. In the example below we use `data-z="-3000"` meaning that element should be
+        positioned far away from us (by 3000px).
+        
+    -->
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="tiny" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1"> -->
+        <h1>如果定位元素z-index没有发生嵌套：</h1>
+        <p>1.后来居上的准则；</p>
+        <p>2.哪个大，哪个上；</p>
+    </div>
+
+    <!--
+        
+        This step here doesn't introduce anything new when it comes to data attributes, but you
+        should notice in the demo that some words of this text are being animated.
+        It's a very basic CSS transition that is applied to the elements when this step element is
+        reached.
+        
+        At the very beginning of the presentation all step elements are given the class of `future`.
+        It means that they haven't been visited yet.
+        
+        When the presentation moves to given step `future` is changed to `present` class name.
+        That's how animation on this step works - text moves when the step has `present` class.
+        
+        Finally when the step is left the `present` class is removed from the element and `past`
+        class is added.
+        
+        So basically every step element has one of three classes: `future`, `present` and `past`.
+        Only one current step has the `present` class.
+        
+    -->
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="ing" class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6"> -->
+        <!-- <p>by <b class="positioning">positioning</b>, <b class="rotating">rotating</b> and <b class="scaling">scaling</b> them on an infinite canvas</p> -->
+        <p class="positioning" style="text-align: center;">1.后来居上</p>
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="imagination" class="step" data-x="6700" data-y="-300" data-scale="6"> -->
+        <xmp><img src="mm0.jpg" style="position: absolute;"></xmp>
+        <xmp><img src="mm0.jpg" style="position: relative;"></xmp>
+        <img style="position: absolute;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <img style="position: relative;margin-left: 120px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="source" class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4"> -->
+        <p style="text-align: center;" class="positioning">1.哪个大，哪个上</p>
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+        <xmp><img src="mm0.jpg" style="position: absolute; z-index:2;"></xmp>
+        <xmp><img src="mm0.jpg" style="position: relative; z-index:1;"></xmp>
+        <img style="position: absolute;z-index:2;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <img style="position: relative; z-index:1; margin-left: 120px" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+    </div>
+
+    <!--
+        
+        And the last one shows full power and flexibility of impress.js.
+        
+        You can not only position element in 3D, but also rotate it around any axis.
+        So this one here will get rotated by -40 degrees (40 degrees anticlockwise) around X axis and
+        10 degrees (clockwise) around Y axis.
+        
+        You can of course rotate it around Z axis with `data-rotate-z` - it has exactly the same effect
+        as `data-rotate` (these two are basically aliases).
+        
+    -->
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="its-in-3d" class="step" data-x="6200" data-y="4300" data-z="-100" data-rotate-x="-40" data-rotate-y="10" data-scale="2"> -->
+        <p>如何定位元素z-index发生嵌套：</p>
+        <p>1.祖先优先原则；</p>
+    </div>
+
+    <!--
+        
+        So to summarize of all the possible attributes used to position presentation steps, we have:
+        
+        * `data-x`, `data-y`, `data-z` - they define the position of **the center** of step element on
+            the canvas in pixels; their default value is 0;
+        * `data-rotate-x`, `data-rotate-y`, 'data-rotate-z`, `data-rotate` - they define the rotation of
+            the element around given axis in degrees; their default value is 0; `data-rotate` and `data-rotate-z`
+            are exactly the same;
+        * `data-scale` - defines the scale of step element; default value is 1
+        
+        These values are used by impress.js in CSS transformation functions, so for more information consult
+        CSS transfrom docs: https://developer.mozilla.org/en/CSS/transform
+        
+    -->
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10"> -->
+        <xmp>
+        <div style="position:relative; z-index:1;">
+            <img src="mm0.jpg" style="position: absolute; z-index:2;">
+        </div>
+
+        <div style="position:relative; z-index:1;">
+            <img src="mm0.jpg" style="position: relative;z-index:1;">
+        </div>
+        </xmp>
+        <!-- <div style="position:relative; z-index:1;">
+            <img style="position: absolute;z-index:2;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="position:relative; z-index:1;">
+            <img style="position: relative; z-index:1; margin-left: 120px" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div> -->
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10"> -->
+        <xmp>
+        <div style="position:relative; z-index:1;">
+            <img src="mm0.jpg" style="position: absolute; z-index:2;">
+        </div>
+
+        <div style="position:relative; z-index:1;">
+            <img src="mm0.jpg" style="position: relative;z-index:1;">
+        </div>
+        </xmp>
+        <div style="position:relative; z-index:1;">
+            <img style="position: absolute;z-index:2;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="position:relative; z-index:1;">
+            <img style="position: relative; z-index:1; margin-left: 120px" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="overview1" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1"> -->
+        前提：z-index值是数值，非auto！
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="overview1" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1"> -->
+        <xmp>
+            <div style="position: relative; z-index: auto;">
+                <img src="mm0.jpg" style="position: absolute; z-index:2;">
+            <div>
+            <div style="position: relative; z-index: 1;">
+                <img src="mm0.jpg" style="position: relative;z-index:1;">
+            </div>
+        </xmp>
+        <!-- <div style="position:relative; z-index:auto;">
+            <img style="position: absolute;z-index:2;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="position:relative; z-index:1;">
+            <img style="position: relative; z-index:1; margin-left: 120px" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div> -->
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="overview1" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1"> -->
+        <xmp>
+            <div style="position: relative; z-index: auto;">
+                <img src="mm0.jpg" style="position: absolute; z-index:2;">
+            <div>
+            <div style="position: relative; z-index: 1;">
+                <img src="mm0.jpg" style="position: relative;z-index:1;">
+            </div>
+        </xmp>
+        <div style="position:relative; z-index:auto;">
+            <img style="position: absolute;z-index:2;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="position:relative; z-index:1;">
+            <img style="position: relative; z-index:1; margin-left: 120px" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="overview1" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1"> -->
+        <p style="text-align: center;"><img src="img/ask.gif"></p>
+        <p style="text-align: center;">Why?</p>
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="overview1" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1"> -->
+        <p style="padding-left: 20px; font-size: 30px; background-color: #eee;border-left:10px solid #ccc;">
+            CSS2.1：(z-index:auto)The stack level of the generated box in the current stacking context is 0. The box does not establish a new stacking context unless it is the root element.
+        </p>
+        <p style="padding-left: 20px; font-size: 30px; background-color: #eee;border-left:10px solid #ccc;margin-top: 20px;">
+            CSS2.1：(z-index:auto)当前层叠上下文的生成盒子层叠水平是0。盒子（除非是根元素）不会创建一个新的层叠上下文。
+        </p>
+    </div>
+
+    <div class="step" data-x="0" data-y="0" data-scale="4">
+    <!-- <div id="overview1" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1"> -->
+        <p style="text-align: center;">层叠上下文？层叠水平？</p>
+        <p style="text-align: center;"><img src="img/ask.gif"></p>
+    </div>
+
+    <div id="its" class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <q>part3: 理解CSS中的层叠上下文和层叠水平</q>
+        <p style="color: #999">——元素层叠表现基础且重要的概念</p>
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        层叠上下文（stacking context）
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        层叠上下文(stacking context)是HTML元素中的一个三维概念，表示元素在z轴上有了“可以高人一等”。
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <img data-src="img/z-aris.png" width="800" height="400" alt="网页中z轴示意" class="alignnone" src="img/z-aris.png">
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <p>皇帝（你）</p>
+        <p>当官（层叠上下文元素）</p>
+        <p>家族（嵌套）</p>
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        层叠上下文（stacking context）是表示普通老百姓HTML元素当官了，离皇帝更近了。
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <ul>
+            <li>
+                页面根元素天生具有层叠上下文，称之为“根层叠上下文”。<span style="color: #999;"> -皇亲国戚</span></li>
+            <li>
+                z-index值为数值的定位元素也具有层叠上下文。 <span style="color: #999;">-科考入选</span></li>
+            <li>
+                其他属性…… <span style="color: #999;">-其他当官途径</span></li>
+        </ul>
+    </div>
+    
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <p style="text-align: center;">层叠水平(stacking level)</p>
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <p>层叠上下文中的每个元素都有一个层叠水平(stacking level)，决定了同一个层叠上下文中元素在z轴上的显示顺序。</p>
+        <p>遵循“后来居上”和“谁大谁上”的层叠准则。</p>
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        所谓打狗看主人。每一个当官的家里儿孙啊，仆人什么的，都有一个论资排辈（即层叠水平），决定了在一起的时候，谁排在前面，离官员更近。
+    </div>
+    
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        层叠水平(stacking level)和z-index不是一个东西。普通元素也有层叠水平。
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <p style="text-align: center;">层叠上下文几个特性</p>
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <ul style="font-size: 40px; list-style: inherit;">
+            <li>层叠上下文可以嵌套，组合成一个分层次的层叠上下文。</li>
+            <li>每个层叠上下文和兄弟元素独立：当进行层叠变化或渲染的时候，只需要考虑后代元素。</li>
+            <li>每个层叠上下文是自成体系的：当元素的内容被层叠后，整个元素被认为是在父层的层叠顺序中。</li>
+        </ul>
+        <!-- <ul>
+            <li>一个家里，爸爸可以当官，孩子也是可以同时当官的。这个家庭的官就当得比较有层次。</li>
+            <li>自己当官，兄弟不占光。有什么福利或者变故只会影响自己的孩子们。</li>
+            <li>每个当官的都有属于自己的小团体。当子孙或属下发生的排辈摩擦什么的，都是自己宅院的事情，不会影响官员自己和皇帝之间的距离。</li>
+        </ul> -->
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <ul style="font-size: 40px; list-style: inherit;">
+            <li style="color: rgba(5, 127, 97, 0.91)">一个家里，爸爸可以当官，孩子也是可以同时当官的。这个家庭的官就当得比较有层次。</li>
+            <li>每个层叠上下文和兄弟元素独立：当进行层叠变化或渲染的时候，只需要考虑后代元素。</li>
+            <li>每个层叠上下文是自成体系的：当元素的内容被层叠后，整个元素被认为是在父层的层叠顺序中。</li>
+        </ul>
+        <!-- <ul>
+            <li>一个家里，爸爸可以当官，孩子也是可以同时当官的。这个家庭的官就当得比较有层次。</li>
+            <li>自己当官，兄弟不占光。有什么福利或者变故只会影响自己的孩子们。</li>
+            <li>每个当官的都有属于自己的小团体。当子孙或属下发生的排辈摩擦什么的，都是自己宅院的事情，不会影响官员自己和皇帝之间的距离。</li>
+        </ul> -->
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <ul style="font-size: 40px;list-style: inherit;">
+            <li style="color: rgba(5, 127, 97, 0.91)">一个家里，爸爸可以当官，孩子也是可以同时当官的。这个家庭的官就当得比较有层次。</li>
+            <li style="color: rgba(5, 127, 97, 0.91)">自己当官，兄弟不占光。有什么福利或者变故只会影响自己的孩子们。</li>
+            <li>每个层叠上下文是自成体系的：当元素的内容被层叠后，整个元素被认为是在父层的层叠顺序中。</li>
+        </ul>
+        <!-- <ul>
+            <li>一个家里，爸爸可以当官，孩子也是可以同时当官的。这个家庭的官就当得比较有层次。</li>
+            <li>自己当官，兄弟不占光。有什么福利或者变故只会影响自己的孩子们。</li>
+            <li>每个当官的都有属于自己的小团体。当子孙或属下发生的排辈摩擦什么的，都是自己宅院的事情，不会影响官员自己和皇帝之间的距离。</li>
+        </ul> -->
+    </div>
+
+    <div class="step" data-x="850" data-y="3000" data-rotate="90" data-scale="5">
+        <ul style="font-size: 40px;list-style: inherit;">
+            <li style="color: rgba(5, 127, 97, 0.91)">一个家里，爸爸可以当官，孩子也是可以同时当官的。这个家庭的官就当得比较有层次。</li>
+            <li style="color: rgba(5, 127, 97, 0.91)">自己当官，兄弟不占光。有什么福利或者变故只会影响自己的孩子们。</li>
+            <li style="color: rgba(5, 127, 97, 0.91)">每个当官的都有属于自己的小团体。当子孙或属下发生的排辈摩擦什么的，都是自己宅院的事情，不会影响官员自己和皇帝之间的距离。</li>
+        </ul>
+        <!-- <ul>
+            <li>一个家里，爸爸可以当官，孩子也是可以同时当官的。这个家庭的官就当得比较有层次。</li>
+            <li>自己当官，兄弟不占光。有什么福利或者变故只会影响自己的孩子们。</li>
+            <li>每个当官的都有属于自己的小团体。当子孙或属下发生的排辈摩擦什么的，都是自己宅院的事情，不会影响官员自己和皇帝之间的距离。</li>
+        </ul> -->
+    </div>
+
+    <div id="big" class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        part4: 理解元素的层叠顺序
+        <p style="color: #999;">————rt</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <p style="text-align: center;">层叠顺序(stacking order)</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        层叠顺序：元素发生层叠时候有着特定的垂直显示顺序。
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        著名的7阶层叠水平(stacking level)
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <p style="text-align: center;">著名的7阶层叠水平(stacking level)</p>
+        <img data-src="img/stacking-order.png" width="800" height="440px" alt="层叠顺序" class="alignnone" src="img/stacking-order.png">
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <p style="text-align: center;">为何需要层叠顺序？</p>
+        <p style="text-align: center;">为何是这个层叠顺序？</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <p style="text-align: center;">1.层叠顺序的意义</p>
+    </div>
+    
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        规范元素重叠时候的呈现规则
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <p style="text-align: center;">2.为何层叠顺序是这样的？</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <img data-src="img/stacking-order.png" width="800" height="440px" alt="层叠顺序" class="alignnone" src="img/stacking-order.png">
+        <p>想不通：为何内联元素覆盖浮动元素？</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        更符合页面加载的功能和视觉呈现！
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <img data-src="img/stacking-order1.png" width="800" height="440px" alt="层叠顺序" class="alignnone" src="img/stacking-order1.png">
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <img data-src="img/stacking-order1.png" width="800" height="440px" alt="层叠顺序" class="alignnone" src="img/stacking-order1.png">
+        内容是页面最重要的实体，因此，层叠水平要高！
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <p style="text-align: center;">感受一下~~</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <xmp>img {float: left; margin-right: -20px;}</xmp>
+        <img style="float: left; margin-right: -20px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <div style="font-size: 28px;">浮动原本设计的作用是实现文字环绕图片的效果。如果图片和文字发生重叠，显然，是后面的文字要优先显示的，因为，文字比图片重要。就像这里，我就放一个头像图片，你再有洪荒之力也猜不到我想表达的内容吧，嘿嘿嘿……</div>
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <xmp>
+            .inline-block, .block{...}
+            .inline-block {
+                display:inline-block;
+                background-color:olive;
+                margin:-30px;
+            }
+            .block {
+                display:block;
+                background-color: green;
+            }
+        </xmp>
+        <div style="display:inline-block;background-color:olive;margin:-30px;width:500px;height:100px;color: #fff;padding-left: 20px;">display:inline-block</div>
+        <div style="display:block;background-color: green;width:500px;height:100px;color: #fff;padding-left: 20px;">display:block</div>
+    </div>
+
+    <div class="step" data-x="3500" data-y="2100" data-rotate="180" data-scale="6">
+        <xmp>
+            .inline-block, .block{...}
+            .inline-block {
+                display:inline-block;
+                background-color:olive;
+                margin:-30px;
+            }
+            .block {
+                display:block;
+                background-color: green;
+            }
+        </xmp>
+        <div style="display:inline-block;background-color:olive;margin:-30px;width:500px;height:100px;color: #fff;padding-left: 20px;">display:inline-block</div>
+        <div style="display:block;background-color: green;width:500px;height:100px;color: #fff;padding-left: 20px;">display:block</div>
+        <p style="position: absolute;top: 40%;background: #fff;color: #f00;font-size: 36px;padding: 20px 10px;">背景色覆盖是层叠顺序，文字覆盖是后来居上。</p>
+    </div>
+
+    <div id="tiny" class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        part5:z-index与层叠上下文
+        <p style="color: #999;">——解释z-index的实际行为表现</p>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <ol style="font-size: 36px;">
+            <li>1.定位元素默认z-index:auto可以看成是z-index:0；</li>
+            <li>2.z-index不为auto的定位元素会创建层叠上下文；</li>
+            <li>3.z-index层叠顺序的比较止步于父级层叠上下文；</li>
+        </ol>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        1.为何定位元素会覆盖普通元素？
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre>
+            .a {  }
+            .b { margin-left: -100px; }
+        </pre>
+        <img  width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <img style="margin-left: -100px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre>
+            .a { position: relative; }
+            .b { margin-left: -100px; }
+        </pre>
+        <img style="position: relative;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <img style="margin-left: -100px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre>
+            .a { position: relative; }
+        </pre>
+        <img style="float: left;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <div style="float: right; width: 70%; font-size: 32px;">
+                <p style="background-color: #0774B8;
+            color: #fff; padding: 20px; border-radius: 8px;">此时图片的z-index值是？</p>
+        </div>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre>
+            .a { position: relative; }
+        </pre>
+        <img style="float: left;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <div style="float: right; width: 70%; font-size: 32px;">
+            <p style="background-color: #0774B8;
+            color: #fff; padding: 20px; border-radius: 8px;">此时图片的z-index值是？</p>
+            <p>此时图片z-index值是:auto</p>
+        </div>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre>
+            .a { position: relative; }
+        </pre>
+        <img style="float: left;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <div style="float: right; width: 70%; font-size: 32px;">
+            <p style="background-color: #0774B8;
+            color: #fff; padding: 20px; border-radius: 8px;">此时图片的z-index值是？</p>
+            <p>此时图片z-index值是 : auto</p>
+            <p>可以看成是: z-index:0</p>
+        </div>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <img width="800" height="440px" alt="层叠顺序" class="alignnone" src="img/stacking-order2.png">
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        2.z-index与创建层叠上下文
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre style="font-size: 32px;">
+            .box { position: absolute; background: blue; }
+            img { position: relative; margin-left: -100px; }
+        </pre>
+        <div style="position: absolute; background: #0774B8; width:200px;height:260px;">
+            <img style="position: relative; margin-left: -100px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="float: right; width: 60%;">
+            <p style="background-color: #0774B8;
+            color: #fff; padding: 20px; border-radius: 8px; margin-bottom: 10px;">图片添加z-index:-1</p>
+            <p style="background-color: #0774B8;
+            color: #fff; padding: 20px; border-radius: 8px;">容器添加z-index:0</p>
+        </div>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre style="font-size: 32px;">
+            .box { position: absolute; background: blue; }
+            img { position: relative; margin-left: -100px; z-index: -1;}
+        </pre>
+        <div style="position: absolute; background: #0774B8; width:200px;height:260px;">
+            <img style="position: relative; margin-left: -100px; z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="float: right; width: 60%;">
+            <p style="background-color: #0774B8;
+            color: #fff; padding: 20px; border-radius: 8px; margin-bottom: 10px;">图片添加z-index:-1</p>
+            <p style="background-color: #0774B8;
+            color: #fff; padding: 20px; border-radius: 8px;">容器添加z-index:0</p>
+        </div>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre style="font-size: 32px;">
+            .box { position: absolute; background: blue; z-index: 0;}
+            img { position: relative; margin-left: -100px; z-index: -1;}
+        </pre>
+        <div style="position: absolute; z-index: 0; background: #0774B8; width:200px;height:260px;">
+            <img style="position: relative; margin-left: -100px; z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="float: right; width: 60%;">
+            <p style="background-color: #0774B8;
+            color: #fff; padding: 20px; border-radius: 8px; margin-bottom: 10px;">图片添加z-index:-1</p>
+            <p style="background-color: #0774B8;
+            color: #fff; padding: 20px; border-radius: 8px;">容器添加z-index:0</p>
+        </div>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <p style="text-align: center;"><img src="img/ask.gif"></p>
+        <p style="text-align: center;">Why?</p>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <img width="800" height="440px" alt="层叠顺序" class="alignnone" src="img/stacking-order3.png">
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre style="font-size: 32px;">
+            .box { position: absolute; background: blue; }
+            img { position: relative; margin-left: -100px; z-index: -1;}
+        </pre>
+        <div style="position: absolute; background: #0774B8; width:200px;height:260px;">
+            <img style="position: relative; margin-left: -100px; z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="float: right; width: 60%;">
+            <p>此时图片的层叠上下文元素是页面根元素</p>
+        </div>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <pre style="font-size: 32px;">
+            .box { position: absolute; background: blue; z-index: 0;}
+            img { position: relative; margin-left: -100px; z-index: -1;}
+        </pre>
+        <div style="position: absolute; z-index: 0; background: #0774B8; width:200px;height:260px;">
+            <img style="position: relative; margin-left: -100px; z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="float: right; width: 60%;">
+            <p>但是，一旦容器z-index值为数值，图片的层叠上下文元素就变成了容器！</p>
+        </div>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <p>从层叠顺序上讲，</p>
+        <p>z-index:auto可以看成z-index:0,</p>
+        <br>
+        <p>但是从层叠上下文来讲，</p>
+        <p>两者却有着本质差异！</p>
+
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <p style="text-align: center;">但不包括IE7浏览器！</p>
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        3.z-index受限于层叠上下文
+    </div>
+
+    <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
+        <xmp>
+            .box1 { position:relative; z-index:0; }
+            .box1 { position:absolute; z-index: 999999; }
+
+            .box2 { position:relative; z-index: 1; }
+            .box2 img { position:absolute; z-index: -1; }
+        </xmp>
+        <div style="position:relative; z-index:0;">
+            <img style="position:absolute; z-index: 999999;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+        <div style="position:relative; z-index:1;">
+            <img style="position:absolute; z-index: -1; margin-left: 100px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+    </div>
+
+    <div id="ing" class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        part6:其他CSS属性与层叠上下文
+        <p style="color: #999">——不只是z-index</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <ul style="list-style: inherit; font-size: 38px;">
+            <li>
+                页面根元素天生具有层叠上下文，称之为“根层叠上下文”。<span style="color: #999;"> -皇亲国戚</span></li>
+            <li>
+                z-index值为数值的定位元素也具有层叠上下文。 <span style="color: #999;">-科考入选</span></li>
+            <li>
+                其他属性…… <span style="color: #999;">-其他当官途径</span></li>
+        </ul>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <h3>其他参与层叠上下文的属性们</h3>
+        <ol style="font-size: 32px;">
+            <li>1.z-index值不为auto的flex项(父元素display:flex|inline-flex).</li>
+            <li>2.元素的opacity值不是1.</li>
+            <li>3.元素的transform值不是none.</li>
+            <li>4.元素mix-blend-mode值不是normal.</li>
+            <li>5.元素的filter值不是none.</li>
+            <li>6.元素的isolation值是isolate.</li>
+            <li>7.position: fixed声明</li>
+            <li>8.will-change指定的属性值为上面任意一个.</li>
+            <li>9.元素的-webkit-overflow-scrolling设为touch.</li>
+        </ol>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center;">1.display:flex与层叠上下文</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <div>
+                    <img src="mm0.jpg">
+                </div>
+            </div>
+
+            .box {
+                background: blue;
+            }
+            .box > div {
+                z-index: 1;
+            }
+            .box > div > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;">
+            <div style="z-index: 1;">
+                <img style="position: relative;
+                z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+            </div>
+        </div>
+
+        <p style="float: right; width: 40%;  margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素display: flex;</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <div>
+                    <img src="mm0.jpg">
+                </div>
+            </div>
+
+            .box {
+                display: flex;
+                background: blue;
+            }
+            .box > div {
+                z-index: 1;
+            }
+            .box > div > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="display: flex; float: right; margin-top: 40%; width: 100px; background: #0774B8;">
+            <div style="z-index: 1;">
+                <img style="position: relative;
+                z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+            </div>
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素display: flex;</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center;">2.opacity不等于1与层叠上下文</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素opactiy为：.5</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                opacity: .5;
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;  opacity: .5;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素opactiy为：.5</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center;">3.transform不等于none与层叠上下文</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素transform旋转15度</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                transform: rotate(15deg);
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; transform: rotate(15deg)">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素transform旋转15度</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center; font-size: 38px;">4.mix-blend-mode不等于normal与层叠上下文</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素mix-blend-mode为darken</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                mix-blend-mode: screen;
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; mix-blend-mode: screen">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素mix-blend-mode为screen</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center; font-size: 38px;">5.filter不等于none与层叠上下文</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素filter模糊5像素</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                -webkit-filter: blur(5px);
+                filter: blur(5px);
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; -webkit-filter: blur(5px);">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素filter模糊5像素</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center; font-size: 38px;">6.isolation:isolate与层叠上下文</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <img src="img/mm0.jpg" class="mode">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .mode {
+                min-blend-mode: screen;
+            }
+            .box {
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <!-- <img style="mix-blend-mode: screen;"> -->
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素isolation:isolate</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <img src="img/mm0.jpg" class="mode">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .mode {
+                min-blend-mode: screen;
+            }
+            .box {
+                isolation:isolate;
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <img style="mix-blend-mode: screen;">
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; isolation:isolate;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素isolation:isolate</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center; font-size: 38px;">7.position:fixed与层叠上下文</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素position:fixed</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                position: fixed;
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; position: fixed; right: 0;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素position:fixed</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                position: fixed;
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; position: fixed; right: 0;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素position:fixed</p>
+        <p style="float: right; width: 40%; margin-top: 50px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">Chrome等blink/webkit内核浏览器</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center; font-size: 38px;">8.will-change与层叠上下文</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素will-change:transform</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .box {
+                will-change:transform;
+                background: blue;
+            }
+            .box > img {
+                position: relative;
+                z-index: -1;
+            }
+        </xmp>
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; will-change:transform">
+            <img style="position: relative;
+            z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">.box元素will-change:transform</p>
+    </div>
+
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center; font-size: 38px;">9.-webkit-overflow-scrlling与层叠上下文</p>
+    </div>
+
+    <div id="imagination" class="step" data-x="6700" data-y="-300" data-scale="6">
+        <p style="font-size: 38px;">part7: z-index与其他CSS属性层叠上下文</p>
+        <p style="font-size: 38px; color: #999;">——非定位元素层叠上下文和z-index关系大揭秘</p>
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        1.不支持z-index的层叠上下文元素的层叠顺序均是z-index:auto级别
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        <img width="800" height="440px" alt="层叠顺序" class="alignnone" src="img/stacking-order4.png">
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        <p style="text-align: center;">举个栗子</p>
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        <xmp>
+            .img1 { }
+            .img2 { filter: blur(2px); }
+            .img3 { position: relative; }
+            .img4 { opacity: .9; }
+            .img5 { transform: rotate(15deg); }
+        </xmp>
+
+        <img style="" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <img style="-webkit-filter: blur(2px); margin-left: -120px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <img style="position: relative; margin-left: -120px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <img style="opacity: .9; margin-left: -120px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <img style="transform: rotate(15deg); margin-left: -120px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        2.依赖z-index的层叠上下文元素的层叠顺序取决于z-index值
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        <div style="font-size: 38px;">
+            <b>依赖z-index值创建层叠上下文的情况：</b>
+            <p>1.position值为relative/absolute或fixed(部分浏览器)</p>
+            <p>2.display:flex|inline-flex容器的子flex项</p>
+        </div>
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <img src="mm0.jpg" class="a">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .a {
+                position: absolute;
+                z-index: 1;
+            }
+            .box {
+                display: flex;
+                background: blue;
+            }
+            .box > img {
+                z-index: 1;
+            }
+        </xmp>
+        <img style="position: absolute;
+        z-index: 1; top: 39%;
+    right: 80px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; display: flex;">
+            <img style="z-index: 1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">修改flex图片z-index值：-1</p>
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <img src="mm0.jpg" class="a">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .a {
+                position: absolute;
+                z-index: 1;
+            }
+            .box {
+                display: flex;
+                background: blue;
+            }
+            .box > img {
+                z-index: -1;
+            }
+        </xmp>
+        <img style="position: absolute;
+        z-index: 1; top: 39%;
+    right: 80px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; display: flex;">
+            <img style="z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">修改flex图片z-index值：-1</p>
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <img src="mm0.jpg" class="a">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .a {
+                position: absolute;
+                z-index: 1;
+            }
+            .box {
+                display: flex;
+                background: blue;
+            }
+            .box > img {
+                z-index: 0;
+            }
+        </xmp>
+        <img style="position: absolute;
+        z-index: 1; top: 39%;
+    right: 80px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; display: flex;">
+            <img style="z-index: 0;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">修改flex图片z-index值：0</p>
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        <xmp style="float: left; width: 50%;">
+            <img src="mm0.jpg" class="a">
+            <div class="box">
+                <img src="mm0.jpg">
+            </div>
+
+            .a {
+                position: absolute;
+                z-index: 1;
+            }
+            .box {
+                display: flex;
+                background: blue;
+            }
+            .box > img {
+                z-index: 1;
+            }
+        </xmp>
+        <img style="position: absolute;
+        z-index: 1; top: 39%;
+    right: 80px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; display: flex;">
+            <img style="z-index: 1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+        </div>
+
+        <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
+        color: #fff; padding: 20px; border-radius: 8px;">修改flex图片z-index值：1</p>
+    </div>
+
+    <div class="step" data-x="6700" data-y="-300" data-scale="6">
+        至此，z-index理论相关部分结束……
+    </div>
+
+    <div id="source" class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        part8:z-index相关实践分享
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <p>1.最小化影响原则</p>
+        <p>2.不犯二准则</p>
+        <p>3.组件层级计数器</p>
+        <p>4.可访问性隐藏</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <p style="text-align: center;">1.最小化影响原则</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <b>目的：</b><br>
+        避免z-index嵌套层叠关系混乱
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <b>目的：</b><br>
+        避免z-index嵌套层叠关系混乱<br>
+        <b>原因：</b><br>
+        <p>1.元素的层叠水平主要由所在的层叠上下文决定；</p>
+        <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <b>目的：</b><br>
+        避免z-index嵌套层叠关系混乱<br>
+        <b>原因：</b><br>
+        <p>1.元素的层叠水平主要由所在的层叠上下文决定；</p>
+        <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
+        <b>做法：</b><br>
+        <p>1.避免使用定位属性；</p>
+        <p>2.定位属性从大容器平级分离为私有小容器；</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <p style="text-align: center;">2.不犯二准则</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <b>目的：</b><br>
+        避免z-index混乱，一山比一山高的样式问题<br>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <b>目的：</b><br>
+        避免z-index混乱，一山比一山高的样式问题<br>
+        <b>原因：</b><br>
+        <p>多人协作以及后期维护；</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <b>目的：</b><br>
+        避免z-index混乱，一山比一山高的样式问题<br>
+        <b>原因：</b><br>
+        <p>多人协作以及后期维护；</p>
+        <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
+        <b>做法：</b><br>
+        <p>对于非浮层元素，避免设置z-index值，z-index值没有任何道理需要超过2——不犯二准则；</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <p style="text-align: center;">3.组件层级计数器</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <b>目的：</b><br>
+        避免浮层组件因z-index被覆盖的问题<br>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <b>目的：</b><br>
+        避免浮层组件因z-index被覆盖的问题<br>
+        <b>原因：</b><br>
+        <p>1.总会遇到意想不到的高层级元素；</p>
+        <p>2.组件的覆盖规则具有动态性；</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <b>目的：</b><br>
+        避免浮层组件因z-index被覆盖的问题<br>
+        <b>原因：</b><br>
+        <p>1.总会遇到意想不到的高层级元素；</p>
+        <p>2.组件的覆盖规则具有动态性；</p>
+        <b>做法：</b><br>
+        <p>组件层级计数器方法；</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <p style="font-size: 38px;">通过JS获得body下子元素的最大z-index值</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <p style="text-align: center">4.负值z-index与可访问性隐藏</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <p style="text-align: center"><b>可访问性隐藏：</b>人肉眼不可见，</p>
+        <p style="text-align: center;">但是辅助设备可以识别。</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        z-index负值元素在层叠上下文的背景之上，其他元素之下。
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        <img style="width: 100%; height:100%;" src="img/part8.jpg">
+    </div>
+
+    <div id="one-more-thing" class="step" data-x="6000" data-y="4000" data-scale="2">
+        <p style="text-align: center;">以上~~</p>
+    </div>
+
+    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
+        以上~~
+    </div>
+
+    <div id="its-in-3d" class="step" data-x="6200" data-y="4300" data-z="-100" data-rotate-x="-40" data-rotate-y="10" data-scale="2">
+        <p style="text-align: center;">z-index完结</p>
+        <p style="text-align: center; color: #999;">谢谢！</p>
+    </div>
+
+</div>
+
+<!--
+    
+    Hint is not related to impress.js in any way.
+    
+    But it can show you how to use impress.js features in creative way.
+    
+    When the presentation step is shown (selected) its element gets the class of "active" and the body element
+    gets the class based on active step id `impress-on-ID` (where ID is the step's 
+    
+    id)... It may not be
+    so clear because of all these "ids" in previous sentence, so for example when the first step (the one with
+    the id of `bored`) is active, body element gets a class of `impress-on-bored`.
+    
+    This class is used by this hint below. Check CSS file to see how it's shown with delayed CSS animation when
+    the first step of presentation is visible for a couple of seconds.
+    
+    ...
+    
+    And when it comes to this piece of JavaScript below ... kids, don't do this at home ;)
+    It's just a quick and dirty workaround to get different hint text for touch devices.
+    In a real world it should be at least placed in separate JS file ... and the touch content should be
+    probably just hidden somewhere in HTML - not hard-coded in the script.
+    
+    Just sayin' ;)
+    
+-->
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) { 
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+
+<!--
+    
+    Last, but not least.
+    
+    To make all described above really work, you need to include impress.js in the page.
+    I strongly encourage to minify it first.
+    
+    In here I just include full source of the script to make it more readable.
+    
+    You also need to call a `impress().init()` function to initialize impress.js presentation.
+    And you should do it in the end of your document. Not only because it's a good practice, but also
+    because it should be done when the whole document is ready.
+    Of course you can wrap it in any kind of "DOM ready" event, but I was too lazy to do so ;)
+    
+-->
+<script src="js/impress.js"></script>
+<script>impress().init();</script>
+
+<!--
+    
+    The `impress()` function also gives you access to the API that controls the presentation.
+    
+    Just store the result of the call:
+    
+        var api = impress();
+    
+    and you will get three functions you can call:
+    
+        `api.init()` - initializes the presentation,
+        `api.next()` - moves to next step of the presentation,
+        `api.prev()` - moves to previous step of the presentation,
+        `api.goto( idx | id | element, [duration] )` - moves the presentation to the step given by its index number
+                id or the DOM element; second parameter can be used to define duration of the transition in ms,
+                but it's optional - if not provided default transition duration for the presentation will be used.
+    
+    You can also simply call `impress()` again to get the API, so `impress().next()` is also allowed.
+    Don't worry, it wont initialize the presentation again.
+    
+    For some example uses of this API check the last part of the source of impress.js where the API
+    is used in event handlers.
+    
+-->
+
+</body>
+</html>
+
+<!--
+    
+    Now you know more or less everything you need to build your first impress.js presentation, but before
+    you start...
+    
+    Oh, you've already cloned the code from GitHub?
+    
+    You have it open in text editor?
+    
+    Stop right there!
+    
+    That's not how you create awesome presentations. This is only a code. Implementation of the idea that
+    first needs to grow in your mind.
+    
+    So if you want to build great presentation take a pencil and piece of paper. And turn off the computer.
+    
+    Sketch, draw and write. Brainstorm your ideas on a paper. Try to build a mind-map of what you'd like
+    to present. It will get you closer and closer to the layout you'll build later with impress.js.
+    
+    Get back to the code only when you have your presentation ready on a paper. It doesn't make sense to do
+    it earlier, because you'll only waste your time fighting with positioning of useless points.
+    
+    If you think I'm crazy, please put your hands on a book called "Presentation Zen". It's all about 
+    creating awesome and engaging presentations.
+    
+    Think about it. 'Cause impress.js may not help you, if you have nothing interesting to say.
+    
+-->
+
+<!--
+    
+    Are you still reading this?
+    
+    For real?
+    
+    I'm impressed! Feel free to let me know that you got that far (I'm @bartaz on Twitter), 'cause I'd like
+    to congratulate you personally :)
+    
+    But you don't have to do it now. Take my advice and take some time off. Make yourself a cup of coffee, tea,
+    or anything you like to drink. And raise a glass for me ;)
+    
+    Cheers!
+    
+-->
+
