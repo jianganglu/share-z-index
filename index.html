@@ -910,7 +910,7 @@
     <div class="step" data-x="2825" data-y="2325" data-z="-3000" data-rotate="300" data-scale="1">
         <xmp>
             .box1 { position:relative; z-index:0; }
-            .box1 { position:absolute; z-index: 999999; }
+            .box1 img { position:absolute; z-index: 999999; }
 
             .box2 { position:relative; z-index: 1; }
             .box2 img { position:absolute; z-index: -1; }
@@ -1163,7 +1163,7 @@
                 z-index: -1;
             }
         </xmp>
-        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; mix-blend-mode: screen">
+        <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8;">
             <img style="position: relative;
             z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
         </div>
@@ -1275,7 +1275,6 @@
                 z-index: -1;
             }
         </xmp>
-        <img style="mix-blend-mode: screen;">
         <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; isolation:isolate;">
             <img style="position: relative;
             z-index: -1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
@@ -1489,7 +1488,7 @@
         </div>
 
         <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
-        color: #fff; padding: 20px; border-radius: 8px;">修改flex图片z-index值：-1</p>
+        color: #fff; padding: 20px; border-radius: 8px;">修改flex图片z-index值：1</p>
     </div>
 
     <div class="step" data-x="6700" data-y="-300" data-scale="6">
@@ -1602,27 +1601,33 @@
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        <b>目的：</b><br>
-        避免z-index嵌套层叠关系混乱
+        <div style="font-size: 38px;">
+            <b>目的：</b><br>
+            避免z-index嵌套层叠关系混乱
+        </div>
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        <b>目的：</b><br>
-        避免z-index嵌套层叠关系混乱<br>
-        <b>原因：</b><br>
-        <p>1.元素的层叠水平主要由所在的层叠上下文决定；</p>
-        <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
+        <div style="font-size: 38px;">
+            <b>目的：</b><br>
+            避免z-index嵌套层叠关系混乱<br>
+            <b>原因：</b><br>
+            <p>1.元素的层叠水平主要由所在的层叠上下文决定；</p>
+            <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
+        </div>
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        <b>目的：</b><br>
-        避免z-index嵌套层叠关系混乱<br>
-        <b>原因：</b><br>
-        <p>1.元素的层叠水平主要由所在的层叠上下文决定；</p>
-        <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
-        <b>做法：</b><br>
-        <p>1.避免使用定位属性；</p>
-        <p>2.定位属性从大容器平级分离为私有小容器；</p>
+        <div style="font-size: 38px;">
+            <b>目的：</b><br>
+            避免z-index嵌套层叠关系混乱<br>
+            <b>原因：</b><br>
+            <p>1.元素的层叠水平主要由所在的层叠上下文决定；</p>
+            <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
+            <b>做法：</b><br>
+            <p>1.避免使用定位属性；</p>
+            <p>2.定位属性从大容器平级分离为私有小容器；</p>
+        </div>
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
@@ -1630,25 +1635,31 @@
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        <b>目的：</b><br>
-        避免z-index混乱，一山比一山高的样式问题<br>
+        <div style="font-size: 38px;">
+            <b>目的：</b><br>
+            避免z-index混乱，一山比一山高的样式问题<br>
+        </div>
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        <b>目的：</b><br>
-        避免z-index混乱，一山比一山高的样式问题<br>
-        <b>原因：</b><br>
-        <p>多人协作以及后期维护；</p>
+        <div style="font-size: 38px;">
+            <b>目的：</b><br>
+            避免z-index混乱，一山比一山高的样式问题<br>
+            <b>原因：</b><br>
+            <p>多人协作以及后期维护；</p>
+        </div>
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        <b>目的：</b><br>
-        避免z-index混乱，一山比一山高的样式问题<br>
-        <b>原因：</b><br>
-        <p>多人协作以及后期维护；</p>
-        <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
-        <b>做法：</b><br>
-        <p>对于非浮层元素，避免设置z-index值，z-index值没有任何道理需要超过2——不犯二准则；</p>
+        <div style="font-size: 38px;">
+            <b>目的：</b><br>
+            避免z-index混乱，一山比一山高的样式问题<br>
+            <b>原因：</b><br>
+            <p>多人协作以及后期维护；</p>
+            <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
+            <b>做法：</b><br>
+            <p>对于非浮层元素，避免设置z-index值，z-index值没有任何道理需要超过2——不犯二准则；</p>
+        </div>
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
@@ -1656,26 +1667,32 @@
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        <b>目的：</b><br>
-        避免浮层组件因z-index被覆盖的问题<br>
+        <div style="font-size: 38px;">
+            <b>目的：</b><br>
+            避免浮层组件因z-index被覆盖的问题<br>
+        </div>
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        <b>目的：</b><br>
-        避免浮层组件因z-index被覆盖的问题<br>
-        <b>原因：</b><br>
-        <p>1.总会遇到意想不到的高层级元素；</p>
-        <p>2.组件的覆盖规则具有动态性；</p>
+        <div style="font-size: 38px;">
+            <b>目的：</b><br>
+            避免浮层组件因z-index被覆盖的问题<br>
+            <b>原因：</b><br>
+            <p>1.总会遇到意想不到的高层级元素；</p>
+            <p>2.组件的覆盖规则具有动态性；</p>
+        </div>
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        <b>目的：</b><br>
-        避免浮层组件因z-index被覆盖的问题<br>
-        <b>原因：</b><br>
-        <p>1.总会遇到意想不到的高层级元素；</p>
-        <p>2.组件的覆盖规则具有动态性；</p>
-        <b>做法：</b><br>
-        <p>组件层级计数器方法；</p>
+        <div style="font-size: 38px;">
+            <b>目的：</b><br>
+            避免浮层组件因z-index被覆盖的问题<br>
+            <b>原因：</b><br>
+            <p>1.总会遇到意想不到的高层级元素；</p>
+            <p>2.组件的覆盖规则具有动态性；</p>
+            <b>做法：</b><br>
+            <p>组件层级计数器方法；</p>
+        </div>
     </div>
 
     <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
@@ -1701,10 +1718,6 @@
 
     <div id="one-more-thing" class="step" data-x="6000" data-y="4000" data-scale="2">
         <p style="text-align: center;">以上~~</p>
-    </div>
-
-    <div class="step" data-x="6300" data-y="2000" data-rotate="20" data-scale="4">
-        以上~~
     </div>
 
     <div id="its-in-3d" class="step" data-x="6200" data-y="4300" data-z="-100" data-rotate-x="-40" data-rotate-y="10" data-scale="2">
