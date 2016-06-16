@@ -935,7 +935,7 @@
             <li>
                 z-index值为数值的定位元素也具有层叠上下文。 <span style="color: #999;">-科考入选</span></li>
             <li>
-                其他属性…… <span style="color: #999;">-其他当官途径</span></li>
+                <span style="border: 1px solid #f00;">其他属性…… <span style="color: #999;">-其他当官途径</span></span></li>
         </ul>
     </div>
 
@@ -1416,6 +1416,10 @@
         <p style="text-align: center; font-size: 38px;">9.-webkit-overflow-scrlling与层叠上下文</p>
     </div>
 
+    <div class="step" data-x="3500" data-y="-850" data-rotate="270" data-scale="6">
+        <p style="text-align: center; font-size: 38px;">略</p>
+    </div>
+
     <div id="imagination" class="step" data-x="6700" data-y="-300" data-scale="6">
         <p style="font-size: 38px;">part7: z-index与其他CSS属性层叠上下文</p>
         <p style="font-size: 38px; color: #999;">——非定位元素层叠上下文和z-index关系大揭秘</p>
@@ -1567,18 +1571,18 @@
                 background: blue;
             }
             .box > img {
-                z-index: 1;
+                z-index: 10;
             }
         </xmp>
         <img style="position: absolute;
         z-index: 1; top: 39%;
     right: 80px;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
         <div style="float: right; margin-top: 40%; width: 100px; background: #0774B8; display: flex;">
-            <img style="z-index: 1;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
+            <img style="z-index: 10;" width="226" height="226" alt="浮动和文字重叠" class="alignnone" src="img/jgl.png">
         </div>
 
         <p style="float: right; width: 40%; margin-top: 40px; font-size: 32px; background-color: #0774B8;
-        color: #fff; padding: 20px; border-radius: 8px;">修改flex图片z-index值：1</p>
+        color: #fff; padding: 20px; border-radius: 8px;">修改flex图片z-index值：10</p>
     </div>
 
     <div class="step" data-x="6700" data-y="-300" data-scale="6">
@@ -1656,7 +1660,6 @@
             避免z-index混乱，一山比一山高的样式问题<br>
             <b>原因：</b><br>
             <p>多人协作以及后期维护；</p>
-            <p>2.IE7 z-index:auto也会新建层叠上下文；</p>
             <b>做法：</b><br>
             <p>对于非浮层元素，避免设置z-index值，z-index值没有任何道理需要超过2——不犯二准则；</p>
         </div>
@@ -1723,6 +1726,12 @@
     <div id="its-in-3d" class="step" data-x="6200" data-y="4300" data-z="-100" data-rotate-x="-40" data-rotate-y="10" data-scale="2">
         <p style="text-align: center;">z-index完结</p>
         <p style="text-align: center; color: #999;">谢谢！</p>
+    </div>
+
+    <div id="its-in-3d" class="step" data-x="6200" data-y="4300" data-z="-100" data-rotate-x="-40" data-rotate-y="10" data-scale="2">
+        <p>推荐书籍</p>
+        <img src="img/book1.jpg" title="JavaScript忍者秘籍">
+        <img src="img/book3.jpg" title="启示录" width="324" height="408">
     </div>
 
 </div>
